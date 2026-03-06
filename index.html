@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TabSync Demo</title>
+  <style>
+    body { font-family: system-ui; background: #fafafa; display: flex; justify-content: center; align-items: center; height: 100vh; transition: background 0.3s, color 0.3s; }
+    body.dark { background: #1a1a1a; color: white; }
+    .container { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+    body.dark .container { background: #2d2d2d; }
+    button { padding: 10px 20px; font-size: 1rem; cursor: pointer; border: none; border-radius: 6px; margin: 5px; }
+    .btn-add { background: #10b981; color: white; }
+    .btn-theme { background: #6366f1; color: white; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🛒 Cart Items: <span id="cartCount">0</span></h1>
+  <p>Open this page in a <b>new tab</b> and watch them sync magically!</p>
+  
+  <button class="btn-add" id="addBtn">+ Add to Cart</button>
+  <button class="btn-theme" id="themeBtn">Toggle Theme</button>
+</div>
+
+<script src="tabsync.js"></script>
+<script>
+  // Инициализируем хранилище
+  const store = new TabSync('myApp', { cart: 0, theme: 'light' });
+
+  // Элементы DOM
+  const countEl = document.getElementById('cartCount');
+  const addBtn = document.getElementById('addBtn');
+  const themeBtn = document.getElementById('themeBtn');
+
+  // Подписываемся на изменения стейта
+  store.subscribe((state) => {
+    countEl.textContent = state.cart;
+    
+    if (state.theme === 'dark') {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+
+  // Обработчики кликов (просто меняем state, остальное делает Proxy)
+  addBtn.onclick = () => store.state.cart += 1;
+  themeBtn.onclick = () => store.state.theme = store.state.theme === 'light' ? 'dark' : 'light';
+</script>
+</body>
+</html>
