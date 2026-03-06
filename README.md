@@ -10,7 +10,11 @@ When a user opens your app in multiple tabs, keeping the UI synchronized (like c
 - **Persistent**: Uses `localStorage` to remember state after closing.
 - **Reactive**: Just mutate `store.state` and your UI updates everywhere.
 - **Tiny**: ~50 lines of code.
-
+## Access
+Open this link in different tabs:
+```html
+https://fdndimon.github.io/tabsync/
+```
 ## 💻 Usage
 
 ```html
